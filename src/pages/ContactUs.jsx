@@ -1,9 +1,17 @@
 import React from "react";
+import { useAuthStore } from "../store/useAuthStore";
 
 const ContactUs = () => {
-  const handleSubmit = (e) => {
+
+  const { contactUs, isSuccess, error, isLoading, setContactFormField, contactFormData } = useAuthStore();
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Message sent to editorial team! (Static demo)");
+    const response = await contactUs();
+    if (response) {
+
+      alert("Message sent to editorial team!");
+
+    }
   };
 
   return (
@@ -91,6 +99,16 @@ const ContactUs = () => {
             Send Us a Message
           </h2>
 
+          {error && (<div className="alert alert-error mb-4 text-sm">
+            <span>{error}</span>
+          </div>
+          )}
+          {isSuccess && (<div className="alert alert-success mb-4 text-sm">
+            <span>Message sent successfully!</span>
+          </div>
+          )}
+
+
           {/* Form UI */}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
@@ -101,6 +119,9 @@ const ContactUs = () => {
                 type="text"
                 placeholder="John Doe"
                 className="input input-bordered w-full"
+                value={contactFormData.name}
+                onChange={(e) => setContactFormField("name", e.target.value)}
+                disabled={isLoading}
                 required
               />
             </div>
@@ -113,6 +134,9 @@ const ContactUs = () => {
                 type="email"
                 placeholder="john@example.com"
                 className="input input-bordered w-full"
+                value={contactFormData.email}
+                onChange={(e) => setContactFormField("email", e.target.value)}
+                disabled={isLoading}
                 required
               />
             </div>
@@ -125,6 +149,9 @@ const ContactUs = () => {
                 type="text"
                 placeholder="Story headline or inquiry topic"
                 className="input input-bordered w-full"
+                value={contactFormData.subject}
+                onChange={(e) => setContactFormField("subject", e.target.value)}
+                disabled={isLoading}
                 required
               />
             </div>
@@ -138,12 +165,15 @@ const ContactUs = () => {
               <textarea
                 placeholder="Provide details, facts, or press release info here..."
                 className="textarea textarea-bordered w-full h-32"
+                value={contactFormData.message}
+                onChange={(e) => setContactFormField("message", e.target.value)}
+                disabled={isLoading}
                 required
               ></textarea>
             </div>
 
             <button type="submit" className="btn btn-primary w-full mt-2">
-              Send Message
+              {isLoading ? "Sending message..." : "Send Message"}
             </button>
           </form>
         </div>

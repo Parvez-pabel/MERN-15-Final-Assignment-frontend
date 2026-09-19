@@ -22,6 +22,16 @@ export const useAuthStore = create((set, get) => ({
     password: "",
   },
 
+  contactFormData: {
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  },
+
+  //METHODS
+
+
   //input change handler
   setRegisterFormField: (field, value) =>
     set((state) => ({
@@ -36,6 +46,14 @@ export const useAuthStore = create((set, get) => ({
       error: null,
     })),
 
+  setContactFormField: (field, value) =>
+    set((state) => ({
+      contactFormData: { ...state.contactFormData, [field]: value },
+      error: null,
+    })),
+
+
+
   resetRegForm: () => ({
     registerFormData: { name: "", email: "", password: "" },
     otp: "",
@@ -43,6 +61,8 @@ export const useAuthStore = create((set, get) => ({
     error: null,
     isSuccess: false,
   }),
+
+
   // this state for user registration
   registerUser: async () => {
     const { registerFormData } = get();
@@ -77,7 +97,7 @@ export const useAuthStore = create((set, get) => ({
           err.response?.data?.message ||
           (err.code === "ECONNABORTED" ?
             "Request timed out. Please try again."
-          : "Registration failed."),
+            : "Registration failed."),
       });
       return false;
     }
@@ -177,4 +197,40 @@ export const useAuthStore = create((set, get) => ({
   //     console.error(error);
   //   }
   // }
+
+  contactUs: async () => {
+
+    const { contactFormData } = get();
+    //validation
+    if (!contactFormData.name || !contactFormData.email || !contactFormData.message || !contactFormData.subject) {
+      set({
+        error: "All fields are required.",
+      });
+      return false;
+    }
+    set({
+      isLoading: true,
+      error: null,
+    });
+    try {
+
+      const response = await api.post("/user/contact/form", contactFormData);
+      set({
+        isLoading: false,
+        isSuccess: true,
+        contactFormData: { name: "", email: "", subject: "", message: "" },
+      });
+      return true;
+
+    } catch (error) {
+      set({
+        isLoading: false,
+        error: error.response?.data?.message || "Failed to send message.",
+      });
+      return false;
+    }
+
+
+
+  }
 }));

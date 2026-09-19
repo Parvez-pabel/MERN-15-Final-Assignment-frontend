@@ -53,12 +53,12 @@ const Login = () => {
         />
 
         <button
-          className="btn btn-outline btn-primary mt-4"
+          className="btn btn-outline btn-primary mt-4 w-full"
           disabled={isLoading}
         >
           {isLoading ?
             <Loader />
-          : "Login"}
+            : "Login"}
         </button>
       </form>
     </div>

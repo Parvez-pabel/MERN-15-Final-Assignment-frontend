@@ -1,9 +1,7 @@
 import React from "react";
 import NewsCard from "../components/common/NewsCard";
-<<<<<<< HEAD
 import Pagination from "../components/common/Pagination";
-=======
->>>>>>> c9cfba19b7632ee3dc9d8cde5130b8eb025d66fe
+
 
 const NewsList = () => {
   return (
@@ -39,10 +37,7 @@ const NewsList = () => {
         </div>
       </div>
       <NewsCard />
-<<<<<<< HEAD
       <Pagination />
-=======
->>>>>>> c9cfba19b7632ee3dc9d8cde5130b8eb025d66fe
     </>
   );
 };
