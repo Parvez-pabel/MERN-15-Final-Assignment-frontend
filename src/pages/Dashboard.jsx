@@ -1,8 +1,4 @@
-import React from "react";
-import { useAuthStore } from "../store/useAuthStore";
-
 const Dashboard = () => {
-  const { user } = useAuthStore();
   return (
     <>
       {/* name of each tab group should be unique */}

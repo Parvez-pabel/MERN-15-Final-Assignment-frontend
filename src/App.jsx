@@ -15,6 +15,7 @@ import {
   RoleBaseRoutes,
 } from "./components/layout/ProtectedRoute";
 import { useEffect } from "react";
+import UserProfile from "./components/user/UserProfile";
 
 const App = () => {
   const { checkAuth } = useAuthStore();
@@ -35,6 +36,7 @@ const App = () => {
             <Route path="/otp-verify" element={<OtpVerify />} />
             <Route path="/News-details" element={<NewsDetails />} />
             <Route path="/all-news" element={<NewsList />} />
+            <Route path="/profile" element={<UserProfile />} />
 
             <Route element={<ProtectedRoute />}>
               <Route
