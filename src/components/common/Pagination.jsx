@@ -2,6 +2,7 @@ import React from 'react'
 
 const Pagination = () => {
   return (
+<<<<<<< HEAD
     <>
       <div className="join">
         <button className="join-item btn">1</button>
@@ -12,6 +13,11 @@ const Pagination = () => {
       </div>
 
     </>
+=======
+    <div>
+      
+    </div>
+>>>>>>> c9cfba19b7632ee3dc9d8cde5130b8eb025d66fe
   )
 }
 
