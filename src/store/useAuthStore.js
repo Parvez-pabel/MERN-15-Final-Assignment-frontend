@@ -29,13 +29,7 @@ export const useAuthStore = create((set, get) => ({
     message: "",
   },
 
-  allNews: [],
-  isNewsLoading: false,
-  newsPagination: {
-    currentPage: 1,
-    totalPages: 1,
-    pageSize: 10,
-  },
+
 
   //METHODS
 
@@ -242,59 +236,59 @@ export const useAuthStore = create((set, get) => ({
 
   },
 
-  fetchAllNews: async (page = 1, limit = 12) => {
-    set({ isNewsLoading: true, error: null });
-    try {
-      const response = await api.get(`/news/all-News?page=${page}&limit=${limit}`);
-      const responseData = response.data?.data;
-      console.log(responseData, "responseData");
-      if (responseData && responseData.data && responseData.data.length > 0) {
-        set({
-          allNews: responseData.data || [],
-          newsPagination: {
-            currentPage: responseData.pagination?.currentPage,
-            totalPages: responseData.pagination?.totalPages,
-            pageSize: responseData.pagination?.pageSize,
-          },
-          isNewsLoading: false,
-        });
-      } else {
-        set({ error: "No news data found.", isNewsLoading: false });
-      }
-    } catch (error) {
-      set({
-        error:
-          error.response?.data?.message ||
-          "Failed to fetch news. Please try again.",
-        isNewsLoading: false,
-      });
-    }
-  },
-  NewsDetails: async (id) => {
-    set({ isNewsLoading: true, error: null });
+  // fetchAllNews: async (page = 1, limit = 12) => {
+  //   set({ isNewsLoading: true, error: null });
+  //   try {
+  //     const response = await api.get(`/news/all-News?page=${page}&limit=${limit}`);
+  //     const responseData = response.data?.data;
+  //     console.log(responseData, "responseData");
+  //     if (responseData && responseData.data && responseData.data.length > 0) {
+  //       set({
+  //         allNews: responseData.data || [],
+  //         newsPagination: {
+  //           currentPage: responseData.pagination?.currentPage,
+  //           totalPages: responseData.pagination?.totalPages,
+  //           pageSize: responseData.pagination?.pageSize,
+  //         },
+  //         isNewsLoading: false,
+  //       });
+  //     } else {
+  //       set({ error: "No news data found.", isNewsLoading: false });
+  //     }
+  //   } catch (error) {
+  //     set({
+  //       error:
+  //         error.response?.data?.message ||
+  //         "Failed to fetch news. Please try again.",
+  //       isNewsLoading: false,
+  //     });
+  //   }
+  // },
+  // NewsDetails: async (id) => {
+  //   set({ isNewsLoading: true, error: null });
 
 
-    try {
-      const response = await api.get(`/news/all-News/${id}`);
-      const newsData = response.data?.data;
-      console.log(newsData);
-      if (newsData) {
-        set({
-          newsDetails: newsData,
-          isNewsLoading: false,
-        });
-      } else {
-        set({ error: "No news data found.", isNewsLoading: false });
-      }
-    } catch (error) {
-      set({
-        error:
-          error.response?.data?.message ||
-          "Failed to fetch news details. Please try again.",
-        isNewsLoading: false,
-      });
-    }
-  }
+  //   try {
+  //     const response = await api.get(`/news/all-News/${id}`);
+  //     const newsData = response.data?.data;
+  //     console.log(newsData);
+  //     if (newsData) {
+  //       set({
+  //         newsDetails: newsData,
+  //         isNewsLoading: false,
+  //       });
+  //     } else {
+  //       set({ error: "No news data found.", isNewsLoading: false });
+  //     }
+  //   } catch (error) {
+  //     set({
+  //       error:
+  //         error.response?.data?.message ||
+  //         "Failed to fetch news details. Please try again.",
+  //       isNewsLoading: false,
+  //     });
+  //   }
+  // }
 
 
 }));
