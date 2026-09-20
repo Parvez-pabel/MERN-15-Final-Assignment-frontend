@@ -34,9 +34,9 @@ const App = () => {
             <Route path="/signin" element={<Login />} />
             <Route path="/signup" element={<Register />} />
             <Route path="/otp-verify" element={<OtpVerify />} />
-            <Route path="/News-details" element={<NewsDetails />} />
+            <Route path="/News-details/:id" element={<NewsDetails />} />
             <Route path="/all-news" element={<NewsList />} />
-            <Route path="/profile" element={<UserProfile />} />
+
 
             <Route element={<ProtectedRoute />}>
               <Route
@@ -48,6 +48,8 @@ const App = () => {
               >
                 <Route path="/dashboard" element={<Dashboard />} />
               </Route>
+              <Route path="/profile" element={<UserProfile />} />
+
             </Route>
           </Route>
         </Routes>
