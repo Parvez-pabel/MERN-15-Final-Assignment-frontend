@@ -15,7 +15,7 @@ import {
   RoleBaseRoutes,
 } from "./components/layout/ProtectedRoute";
 import { useEffect } from "react";
-import UserProfile from "./components/user/UserProfile";
+import Unauthorized from "./components/common/Unauthorized";
 
 const App = () => {
   const { checkAuth } = useAuthStore();
@@ -36,20 +36,18 @@ const App = () => {
             <Route path="/otp-verify" element={<OtpVerify />} />
             <Route path="/News-details/:id" element={<NewsDetails />} />
             <Route path="/all-news" element={<NewsList />} />
-
+            <Route path="/unauthorized" element={<Unauthorized />} />
 
             <Route element={<ProtectedRoute />}>
               <Route
                 element={
                   <RoleBaseRoutes
-                    allowedRoles={["super admin", "author", "user"]}
+                    allowedRoles={["superAdmin", "author", "user"]}
                   />
                 }
               >
                 <Route path="/dashboard" element={<Dashboard />} />
               </Route>
-              <Route path="/profile" element={<UserProfile />} />
-
             </Route>
           </Route>
         </Routes>

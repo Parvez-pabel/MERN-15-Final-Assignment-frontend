@@ -1,7 +1,9 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
+import { useAuthStore } from "./../../store/useAuthStore";
 
 const NavBar = () => {
+  const { user, logout } = useAuthStore?.() || {};
   // Helper function to handle active state dynamic classes
   const linkClasses = ({ isActive }) =>
     isActive ?
@@ -75,22 +77,39 @@ const NavBar = () => {
         </div>
 
         {/* Sign In / Sign Up */}
+        {/* 🔐 Conditional Buttons (Sign In/Up VS Dashboard & Logout) */}
         <div className="navbar-end gap-2">
-          <Link to="/signin" className="btn btn-primary btn-xs sm:btn-sm">
-            Sign In
-          </Link>
-          <Link
-            to="/signup"
-            className="btn btn-xs sm:btn-sm btn-outline btn-primary"
-          >
-            Sign Up
-          </Link>
-          <Link
-            to="/dashboard"
-            className="btn btn-xs sm:btn-sm btn-outline btn-primary"
-          >
-            Dashboard
-          </Link>
+          {
+            user ?
+              // 🟢 User Login থাকলে এই বাটনগুলো দেখাবে
+              <>
+                <Link
+                  to="/dashboard"
+                  className="btn btn-xs sm:btn-sm btn-primary"
+                >
+                  Dashboard
+                </Link>
+                <button
+                  onClick={logout}
+                  className="btn btn-xs sm:btn-sm btn-outline btn-error"
+                >
+                  Logout
+                </button>
+              </>
+              // 🔴 User Login না থাকলে Sign In এবং Sign Up দেখাবে
+            : <>
+                <Link to="/signin" className="btn btn-primary btn-xs sm:btn-sm">
+                  Sign In
+                </Link>
+                <Link
+                  to="/signup"
+                  className="btn btn-xs sm:btn-sm btn-outline btn-primary"
+                >
+                  Sign Up
+                </Link>
+              </>
+
+          }
         </div>
       </div>
 

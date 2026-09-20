@@ -6,7 +6,7 @@ export const useAuthStore = create((set, get) => ({
   user: null,
   isAuthenticated: false,
   otp: "",
-  isLoading: false,
+  isLoading: true,
   error: null,
   isSuccess: false,
 
@@ -29,10 +29,7 @@ export const useAuthStore = create((set, get) => ({
     message: "",
   },
 
-
-
   //METHODS
-
 
   //input change handler
   setRegisterFormField: (field, value) =>
@@ -54,8 +51,6 @@ export const useAuthStore = create((set, get) => ({
       error: null,
     })),
 
-
-
   resetRegForm: () => ({
     registerFormData: { name: "", email: "", password: "" },
     otp: "",
@@ -63,7 +58,6 @@ export const useAuthStore = create((set, get) => ({
     error: null,
     isSuccess: false,
   }),
-
 
   // this state for user registration
   registerUser: async () => {
@@ -99,7 +93,7 @@ export const useAuthStore = create((set, get) => ({
           err.response?.data?.message ||
           (err.code === "ECONNABORTED" ?
             "Request timed out. Please try again."
-            : "Registration failed."),
+          : "Registration failed."),
       });
       return false;
     }
@@ -159,7 +153,6 @@ export const useAuthStore = create((set, get) => ({
       const response = await api.post("/user/login", loginFormData);
       const userData = response.data.user || response.data.data;
 
-
       set({
         user: userData,
         isAuthenticated: true,
@@ -181,9 +174,11 @@ export const useAuthStore = create((set, get) => ({
     set({ isLoading: true });
     try {
       const response = await api.get("/user/profile-details");
+      const userData =
+        response.data?.data?.data || response.data?.user || response.data?.data;
 
       set({
-        user: response.data.user || response.data.data,
+        user: userData,
         isAuthenticated: true,
         isLoading: false,
       });
@@ -192,103 +187,35 @@ export const useAuthStore = create((set, get) => ({
     }
   },
 
-  // logout: async () => {
-  //   try {
-
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
-
-  contactUs: async () => {
-
-    const { contactFormData } = get();
-    //validation
-    if (!contactFormData.name || !contactFormData.email || !contactFormData.message || !contactFormData.subject) {
-      set({
-        error: "All fields are required.",
-      });
-      return false;
-    }
-    set({
-      isLoading: true,
-      error: null,
-    });
+  logout: async () => {
+    set({ isLoading: true });
     try {
-
-      const response = await api.post("/user/contact/form", contactFormData);
-      set({
-        isLoading: false,
-        isSuccess: true,
-        contactFormData: { name: "", email: "", subject: "", message: "" },
-      });
-      return true;
-
+      await api.post("/logout");
     } catch (error) {
+      console.error("Logout Error:", error);
+    } finally {
       set({
+        user: null,
+        isAuthenticated: false,
         isLoading: false,
-        error: error.response?.data?.message || "Failed to send message.",
       });
-      return false;
     }
-
-
-
   },
 
-  // fetchAllNews: async (page = 1, limit = 12) => {
-  //   set({ isNewsLoading: true, error: null });
-  //   try {
-  //     const response = await api.get(`/news/all-News?page=${page}&limit=${limit}`);
-  //     const responseData = response.data?.data;
-  //     console.log(responseData, "responseData");
-  //     if (responseData && responseData.data && responseData.data.length > 0) {
-  //       set({
-  //         allNews: responseData.data || [],
-  //         newsPagination: {
-  //           currentPage: responseData.pagination?.currentPage,
-  //           totalPages: responseData.pagination?.totalPages,
-  //           pageSize: responseData.pagination?.pageSize,
-  //         },
-  //         isNewsLoading: false,
-  //       });
-  //     } else {
-  //       set({ error: "No news data found.", isNewsLoading: false });
-  //     }
-  //   } catch (error) {
-  //     set({
-  //       error:
-  //         error.response?.data?.message ||
-  //         "Failed to fetch news. Please try again.",
-  //       isNewsLoading: false,
-  //     });
-  //   }
-  // },
-  // NewsDetails: async (id) => {
-  //   set({ isNewsLoading: true, error: null });
-
-
-  //   try {
-  //     const response = await api.get(`/news/all-News/${id}`);
-  //     const newsData = response.data?.data;
-  //     console.log(newsData);
-  //     if (newsData) {
-  //       set({
-  //         newsDetails: newsData,
-  //         isNewsLoading: false,
-  //       });
-  //     } else {
-  //       set({ error: "No news data found.", isNewsLoading: false });
-  //     }
-  //   } catch (error) {
-  //     set({
-  //       error:
-  //         error.response?.data?.message ||
-  //         "Failed to fetch news details. Please try again.",
-  //       isNewsLoading: false,
-  //     });
-  //   }
-  // }
-
-
+  checkAuth: async () => {
+    set({ isLoading: true });
+    try {
+      const response = await api.get("/user/profile-details");
+      console.log(response);
+      const userData =
+        response.data?.data?.data || response.data?.user || response.data?.data;
+      set({
+        user: userData,
+        isAuthenticated: true,
+        isLoading: false,
+      });
+    } catch (error) {
+      set({ user: null, isAuthenticated: false, isLoading: false });
+    }
+  },
 }));

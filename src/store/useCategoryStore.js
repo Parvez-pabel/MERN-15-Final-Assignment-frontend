@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { api } from "../api/axiosInstance";
- 
+
 export const useCategoryStore = create((set) => ({
   categories: [],
   isCategoryLoading: false,
@@ -9,16 +9,14 @@ export const useCategoryStore = create((set) => ({
   fetchAllCategories: async () => {
     set({ isCategoryLoading: true, categoryError: null });
     try {
-        const response = await api.get("/news/all-category"); 
-        console.log(response);
-        const responseData = response.data?.data;
-        
-        console.log(responseData);
+      const response = await api.get("/news/all-category");
+
+      const responseData = response.data?.data;
 
       // Response Array/Object Check
       const categoryList =
         Array.isArray(responseData) ? responseData : responseData?.data || [];
-console.log(categoryList);
+
       set({
         categories: categoryList,
         isCategoryLoading: false,

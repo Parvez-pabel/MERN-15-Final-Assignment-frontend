@@ -12,7 +12,7 @@ const Login = () => {
     e.preventDefault();
     const user = await login();
     if (user) {
-      if (user.role?.trim() === "super admin") {
+      if (user.role?.trim() === "superAdmin") {
         navigate("/dashboard");
       }
     }
@@ -58,7 +58,7 @@ const Login = () => {
         >
           {isLoading ?
             <Loader />
-            : "Login"}
+          : "Login"}
         </button>
       </form>
     </div>

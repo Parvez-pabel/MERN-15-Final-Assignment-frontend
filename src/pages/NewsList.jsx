@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import NewsCard from "../components/common/NewsCard";
+import NewsCard from "../components/News/NewsCard";
 import Pagination from "../components/common/Pagination";
 import Loader from "../components/skeleton/loader";
 import { useNewsStore } from "../store/useNewsStore";
